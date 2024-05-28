@@ -7,7 +7,7 @@
 #
 Name     : uthash
 Version  : 2.3.0
-Release  : 4
+Release  : 5
 URL      : https://github.com/troydhanson/uthash/archive/refs/tags/v2.3.0.tar.gz
 Source0  : https://github.com/troydhanson/uthash/archive/refs/tags/v2.3.0.tar.gz
 Summary  : No detailed summary available
@@ -20,7 +20,10 @@ BuildRequires : asciidoc
 %define debug_package %{nil}
 
 %description
-Any C structure can be stored in a hash table using uthash. Just add a UT_hash_handle to the structure and choose one or more fields in your structure to act as the key.  Then use these macros to store, retrieve or delete items from the hash table.
+Any C structure can be stored in a hash table using uthash. Just add
+a UT_hash_handle to the structure and choose one or more fields in
+your structure to act as the key.  Then use these macros to store,
+retrieve or delete items from the hash table.
 
 %package bin
 Summary: bin components for the uthash package.
@@ -50,7 +53,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1716868069
+export SOURCE_DATE_EPOCH=1716868180
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -93,7 +96,7 @@ FFLAGS="$CLEAR_INTERMEDIATE_FFLAGS"
 FCFLAGS="$CLEAR_INTERMEDIATE_FCFLAGS"
 ASFLAGS="$CLEAR_INTERMEDIATE_ASFLAGS"
 LDFLAGS="$CLEAR_INTERMEDIATE_LDFLAGS"
-export SOURCE_DATE_EPOCH=1716868069
+export SOURCE_DATE_EPOCH=1716868180
 rm -rf %{buildroot}
 export GOAMD64=v2
 pushd tests

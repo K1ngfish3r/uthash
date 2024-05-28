@@ -1,0 +1,9 @@
+mkdir -p %{buildroot}{%{_bindir},%{_includedir},%{_pkgdocdir}/html}
+install -pm 0755 tests/{hashscan,keystats} %{buildroot}%{_bindir}
+install -pm 0644 src/*.h %{buildroot}%{_includedir}
+	
+# Install doc.
+	
+install -pm 0644 doc/*.txt tests/example.c %{buildroot}%{_pkgdocdir}
+install -pm 0644 doc/*.html doc/*.css doc/*.png %{buildroot}%{_pkgdocdir}/html
+rm -f %{buildroot}%{_pkgdocdir}/html/google*.html

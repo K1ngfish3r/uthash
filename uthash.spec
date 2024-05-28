@@ -7,7 +7,7 @@
 #
 Name     : uthash
 Version  : 2.3.0
-Release  : 1
+Release  : 2
 URL      : https://github.com/troydhanson/uthash/archive/refs/tags/v2.3.0.tar.gz
 Source0  : https://github.com/troydhanson/uthash/archive/refs/tags/v2.3.0.tar.gz
 Summary  : No detailed summary available
@@ -21,6 +21,16 @@ BuildRequires : asciidoc
 %description
 [![Build status](https://api.travis-ci.org/troydhanson/uthash.svg?branch=master)](https://travis-ci.org/troydhanson/uthash)
 
+%package dev
+Summary: dev components for the uthash package.
+Group: Development
+Provides: uthash-devel = %{version}-%{release}
+Requires: uthash = %{version}-%{release}
+
+%description dev
+dev components for the uthash package.
+
+
 %prep
 %setup -q -n uthash-2.3.0
 cd %{_builddir}/uthash-2.3.0
@@ -30,7 +40,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1716866987
+export SOURCE_DATE_EPOCH=1716867558
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -73,13 +83,32 @@ FFLAGS="$CLEAR_INTERMEDIATE_FFLAGS"
 FCFLAGS="$CLEAR_INTERMEDIATE_FCFLAGS"
 ASFLAGS="$CLEAR_INTERMEDIATE_ASFLAGS"
 LDFLAGS="$CLEAR_INTERMEDIATE_LDFLAGS"
-export SOURCE_DATE_EPOCH=1716866987
+export SOURCE_DATE_EPOCH=1716867558
 rm -rf %{buildroot}
 export GOAMD64=v2
 pushd doc
 GOAMD64=v2
-mkdir -p %{buildroot}{%{_bindir},%{_includedir},%{_pkgdocdir}/html}
+:
 popd
+## install_append content
+mkdir -p %{buildroot}{%{_includedir},%{_pkgdocdir}/html}
+install -pm 0644 src/*.h %{buildroot}%{_includedir}
+
+# Install doc.
+
+install -pm 0644 doc/*.txt tests/example.c %{buildroot}%{_pkgdocdir}
+install -pm 0644 doc/*.html doc/*.css doc/*.png %{buildroot}%{_pkgdocdir}/html
+rm -f %{buildroot}%{_pkgdocdir}/html/google*.html
+## install_append end
 
 %files
 %defattr(-,root,root,-)
+
+%files dev
+%defattr(-,root,root,-)
+/usr/include/utarray.h
+/usr/include/uthash.h
+/usr/include/utlist.h
+/usr/include/utringbuffer.h
+/usr/include/utstack.h
+/usr/include/utstring.h

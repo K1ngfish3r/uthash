@@ -7,12 +7,13 @@
 #
 Name     : uthash
 Version  : 2.3.0
-Release  : 2
+Release  : 3
 URL      : https://github.com/troydhanson/uthash/archive/refs/tags/v2.3.0.tar.gz
 Source0  : https://github.com/troydhanson/uthash/archive/refs/tags/v2.3.0.tar.gz
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : BSD-2-Clause
+Requires: uthash-bin = %{version}-%{release}
 BuildRequires : asciidoc
 # Suppress stripping binaries
 %define __strip /bin/true
@@ -21,9 +22,18 @@ BuildRequires : asciidoc
 %description
 [![Build status](https://api.travis-ci.org/troydhanson/uthash.svg?branch=master)](https://travis-ci.org/troydhanson/uthash)
 
+%package bin
+Summary: bin components for the uthash package.
+Group: Binaries
+
+%description bin
+bin components for the uthash package.
+
+
 %package dev
 Summary: dev components for the uthash package.
 Group: Development
+Requires: uthash-bin = %{version}-%{release}
 Provides: uthash-devel = %{version}-%{release}
 Requires: uthash = %{version}-%{release}
 
@@ -40,7 +50,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1716867558
+export SOURCE_DATE_EPOCH=1716867779
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -55,7 +65,7 @@ FFLAGS="$CLEAR_INTERMEDIATE_FFLAGS"
 FCFLAGS="$CLEAR_INTERMEDIATE_FCFLAGS"
 ASFLAGS="$CLEAR_INTERMEDIATE_ASFLAGS"
 LDFLAGS="$CLEAR_INTERMEDIATE_LDFLAGS"
-pushd doc
+pushd tests
 export GOAMD64=v2
 make  %{?_smp_mflags}
 popd
@@ -66,7 +76,7 @@ export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-make -C tests
+:
 
 %install
 export GCC_IGNORE_WERROR=1
@@ -83,26 +93,26 @@ FFLAGS="$CLEAR_INTERMEDIATE_FFLAGS"
 FCFLAGS="$CLEAR_INTERMEDIATE_FCFLAGS"
 ASFLAGS="$CLEAR_INTERMEDIATE_ASFLAGS"
 LDFLAGS="$CLEAR_INTERMEDIATE_LDFLAGS"
-export SOURCE_DATE_EPOCH=1716867558
+export SOURCE_DATE_EPOCH=1716867779
 rm -rf %{buildroot}
 export GOAMD64=v2
-pushd doc
+pushd tests
 GOAMD64=v2
 :
 popd
 ## install_append content
-mkdir -p %{buildroot}{%{_includedir},%{_pkgdocdir}/html}
+mkdir -p %{buildroot}{%{_bindir},%{_includedir}}
+install -pm 0755 tests/{hashscan,keystats} %{buildroot}%{_bindir}
 install -pm 0644 src/*.h %{buildroot}%{_includedir}
-
-# Install doc.
-
-install -pm 0644 doc/*.txt tests/example.c %{buildroot}%{_pkgdocdir}
-install -pm 0644 doc/*.html doc/*.css doc/*.png %{buildroot}%{_pkgdocdir}/html
-rm -f %{buildroot}%{_pkgdocdir}/html/google*.html
 ## install_append end
 
 %files
 %defattr(-,root,root,-)
+
+%files bin
+%defattr(-,root,root,-)
+/usr/bin/hashscan
+/usr/bin/keystats
 
 %files dev
 %defattr(-,root,root,-)
